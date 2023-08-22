@@ -24,6 +24,10 @@ from sklearn.metrics import cohen_kappa_score
 
 
 def get_root_path(repo):
+
+    '''
+    It is used to get the root path where the project data resides based on the project name.
+    '''
     pre_repos=['eclipse','freedesktop','mozilla','netbeans','openoffice']
     new_repos=['Gentoo','GNOME','KDE','LinuxKernel']
     pre_root_path='F:/network/'
@@ -35,6 +39,11 @@ def get_root_path(repo):
         return new_root_path
 
 def get_blocking_bugs(repos):
+
+    '''
+    The input is the information of all bugs in the project, which saved in xml format.
+    Determine which bugs are blocking bugs based on the data provided for all bugs in the project by analyzing the blocks tag in the bug information.
+    '''
     
     for repo in repos:
         
@@ -80,6 +89,9 @@ def get_blocking_bugs(repos):
                 file_csv.writerow({'down_bug':bug_pair.split('#')[1],'up_bug':bug_pair.split('#')[0]})
 
 def get_fix_time(path,repo):
+    '''
+    The input is a path containing bug activity information which can be used to get the fix time for each bug.
+    '''
     fix_time=''
     soup=BeautifulSoup(open(path,encoding='utf8').read(),'html.parser')
     if(not soup.table):
@@ -109,6 +121,10 @@ def get_fix_time(path,repo):
     
 
 def get_breakable_blocking_bugs(repos):
+
+    '''
+    Determine whether the bug pair is breakable by analyzing the repair time of the two bugs on the blocking bug pairs.
+    '''
     for repo in repos:
         files=os.listdir('../{}/data/'.format(repo))
         total_bugs=[]
@@ -191,6 +207,11 @@ def get_breakable_blocking_bugs(repos):
             file.close()
 
 def get_rq1_metrics(repos):
+
+    '''
+    Based on the information in all bugs in each project, the indicators proposed in RQ1 are extracted to answer RQ1.
+    The metrics are saved in the csv file.
+    '''
     for repo in repos:    
         files=os.listdir('../{}/data/'.format(repo))
         
@@ -232,6 +253,10 @@ def get_rq1_metrics(repos):
 
 
 def get_activity(path,repo):
+
+    '''
+    The input is the path of each bug's activity information from which the bug's activity information is extracted, mainly including many metrics proposed in RQ2.
+    '''
     resolve_time=[]
     fix_time=[]
     assign_time=[]
@@ -299,6 +324,10 @@ def get_activity(path,repo):
     
 
 def get_rq2_metrics(repos):
+    '''
+    Based on the activity information in all bugs in each project, the indicators proposed in RQ2 are extracted to answer RQ2.
+    The metrics are saved in the csv file.
+    '''
 
     for repo in repos:
         
@@ -316,6 +345,11 @@ def get_rq2_metrics(repos):
             file_csv.writerow({'bug':file[1:-4],'fix_time':'#'.join(fix_time),'reopen_time':'#'.join(reopen_time),'resolve_time':'#'.join(resolve_time),'assign_dev':'#'.join(assign_dev),'fix_dev':'#'.join(fix_dev),'reopen_dev':'#'.join(reopen_dev),'resolve_dev':'#'.join(resolve_dev)})
            
 def process_rq2_metrics(repos):
+
+    '''
+    Preprocessing the previously extracted metrics in RQ2 is mainly used to deal with the time on bugs, that is, to calculate the time interval for bug fix, resolved, and reopened.
+    And it save the values of other metrics.
+    '''
     
     for repo in repos:
         header=['bug','fix_time','reopen_time','resolve_time','assign_dev','fix_dev','reopen_dev','resolve_dev']
@@ -384,6 +418,10 @@ def process_rq2_metrics(repos):
             file.close()
 
 def match_bug_to_commits(repos):
+
+    '''
+    It is used to detect the corresponding fixing commit for each bug.
+    '''
     
     for repo in repos:
         

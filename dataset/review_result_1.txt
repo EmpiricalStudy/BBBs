@@ -1,4 +1,4 @@
-ID,Bug ID,Blocking Bug ID,Blocked Bug ID,Reason,Measure
+ID,Project,Blocking Bug ID,Blocked Bug ID,Reason,Measure
 1,Eclipse,22108,19258,R2,M2
 2,Eclipse,69289,127426,R3,M2
 3,Eclipse,414627,413613,R1,M2
